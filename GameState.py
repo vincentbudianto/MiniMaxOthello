@@ -26,25 +26,29 @@ class GameState:
     ]
     pieces = [2, 2]
 
-    def putpiece(self, row, col, turn):
+    def putpiece(self, row, col):
         self.choices.remove([row, col])
-        self.board[row][col] = turn
-        self.capture(self, row, col, turn)
+        self.board[row][col] = self.turn
+        self.pieces[self.turn] += 1
+        self.capture(self, row, col)
         self.updatelegalmoves(self, row, col)
 
-    def capture(self, row, col, turn):
+    def capture(self, row, col):
         # Mengiterasi 8 arah yang perlu dicari
         for y in range(-1,2):
             for x in range(-1,2):
                 distance = 1
                 while (0 <= row + y*distance < 8) & (0 <= col + x*distance < 8):
-                    if self.board[row+y*distance][col+x*distance] == turn:
+                    if self.board[row+y*distance][col+x*distance] == self.turn:
                         # Kembali ke keping yang baru sambil mengganti warna keping diantaranya
                         while distance != 0:
-                            self.board[row+y*distance][col+x*distance] = turn
+                            if self.board[row+y*distance][col+x*distance] == 1 - self.turn:
+                                self.pieces[self.turn] += 1
+                                self.pieces[1 - self.turn] -= 1
+                            self.board[row+y*distance][col+x*distance] = self.turn
                             distance -= 1
                         break
-                    elif self.board[row+y*distance][col+x*distance] == (1 - turn):
+                    elif self.board[row+y*distance][col+x*distance] == (1 - self.turn):
                         distance += 1
                     else: break
 
