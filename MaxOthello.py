@@ -49,7 +49,7 @@ def main():
                     gamestate.turn = 1 - gamestate.turn
                     drawboard(screen, gamestate)
                 if not gamestate.moves[gamestate.turn]:
-                    running = False
+                    #running = False
                     break
 
                 # engine put piece
@@ -60,7 +60,7 @@ def main():
                     gamestate.turn = 1 - gamestate.turn
                     drawboard(screen, gamestate)
                 if not gamestate.moves[gamestate.turn]:
-                    running = False
+                    #running = False
                     break
 
                 print("Current score: " + str(gamestate.count(True)) + "  " + str(gamestate.count(False)))
@@ -69,11 +69,15 @@ def main():
     p2_count = str(gamestate.count(False))
     print("Current score: " + p1_count + "  " + p2_count)
     if (p1_count > p2_count):
-      print("Player 1 WIN")
+      print("Player WIN")
     elif (p1_count < p2_count):
-      print("Player 2 WIN")
+      print("CPU WIN")
     else:
-      print("It's a tie")
+      print("DRAW")
+
+    input()
+
+    running = False
 
 
 if __name__ == '__main__':
