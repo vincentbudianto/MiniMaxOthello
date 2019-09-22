@@ -2,7 +2,7 @@ import pygame
 import os
 import time
 from GameState import GameState
-from Player import RandomPlayer
+import  Player
 from Engine import Engine
 
 def drawboard(screen, gamestate):
@@ -49,7 +49,6 @@ def main():
 
     screen = pygame.display.set_mode((242, 242))
     gamestate = GameState()
-    randPlayer = RandomPlayer()
     engine = Engine
     init(screen, gamestate)
     running = True
@@ -99,7 +98,7 @@ def main():
 
                     # random engine put piece
                     new_state = GameState(gamestate)
-                    row, col = randPlayer.move(new_state)
+                    row, col = Player.move(new_state)
                     if [row, col] in gamestate.moves[gamestate.turn]:
                         gamestate.putpiece(row, col)
                         gamestate.turn = 1 - gamestate.turn
@@ -109,28 +108,27 @@ def main():
                         break
                 # (White) Random vs Minimax (Black)
                 elif choice == 3:
-                    # random engine put piece
-                    new_state = GameState(gamestate)
-                    row, col = randPlayer.move(new_state)
-                    if [row, col] in gamestate.moves[gamestate.turn]:
-                        gamestate.putpiece(row, col)
-                        gamestate.turn = 1 - gamestate.turn
-                        drawboard(screen, gamestate)
-                    if not gamestate.moves[gamestate.turn]:
-                        #running = False
-                        break
-                    
-                    # minimax engine put piece
-                    new_state = GameState(gamestate)
-                    row, col = engine.get_move(engine, new_state, new_state.turn)
-                    if [row, col] in gamestate.moves[gamestate.turn]:
-                        gamestate.putpiece(row, col)
-                        gamestate.turn = 1 - gamestate.turn
-                        drawboard(screen, gamestate)
-                    if not gamestate.moves[gamestate.turn]:
-                        #running = False
-                        break
-                    
+                        # random engine put piece
+                        new_state = GameState(gamestate)
+                        row, col = Player.move(new_state)
+                        if [row, col] in gamestate.moves[gamestate.turn]:
+                            gamestate.putpiece(row, col)
+                            gamestate.turn = 1 - gamestate.turn
+                            drawboard(screen, gamestate)
+                        if not gamestate.moves[gamestate.turn]:
+                            #running = False
+                            break
+
+                        # minimax engine put piece
+                        new_state = GameState(gamestate)
+                        row, col = engine.get_move(engine, new_state, new_state.turn)
+                        if [row, col] in gamestate.moves[gamestate.turn]:
+                            gamestate.putpiece(row, col)
+                            gamestate.turn = 1 - gamestate.turn
+                            drawboard(screen, gamestate)
+                        if not gamestate.moves[gamestate.turn]:
+                            #running = False
+                            break
                 print("Current score: " + str(gamestate.count(True)) + "  " + str(gamestate.count(False)))
 
     p1_count = str(gamestate.count(True))
