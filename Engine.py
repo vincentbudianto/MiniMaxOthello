@@ -14,8 +14,10 @@ class Engine:
       [-3, -4, -1, -1, -1, -1, -4, -3],
       [ 4, -3,  2,  2,  2,  2, -3,  4]
   ]
-  PLY_AB = 4
   DEBUG_MODE = False
+
+  # Depth Variable (default = 1)
+  PLY_AB = 1
 
   def debug_message(self, ply, value):
     if (self.DEBUG_MODE):
@@ -33,7 +35,7 @@ class Engine:
     my_piece_count = state.count(color)
 
     return my_piece_count - op_piece_count
-  
+
   def corner_weight(self, state, color):
     total_weight = 0
     for i in range(8):
@@ -45,7 +47,7 @@ class Engine:
 
   def heuristics(self, state, color):
     return self.corner_weight(self, state, color) + self.get_cost(state, color)
-  
+
   def mini_max_with_alpha_beta(self, state, color, ply):
     # Initialization
     best_move = state.moves[int(color)][0]
@@ -59,7 +61,7 @@ class Engine:
       if score > best_score:
         best_score = score
         best_move = move
-    
+
     self.debug_message(self, ply, best_score)
     return (best_score, best_move)
 

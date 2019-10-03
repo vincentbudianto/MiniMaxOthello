@@ -39,8 +39,15 @@ def main():
         print("   2. Player vs Random Engine")
         print("   3. Random Engine vs Minimax Engine")
         choice = int(input(" >> "))
-        
+
         if (choice >= 1) and (choice <= 3):
+            gamestate = GameState()
+            engine = Engine
+
+            if (choice == 1) or (choice == 3):
+                print(" Minimax depth = ", end="")
+                engine.PLY_AB = int(input())
+                
             validChoice = True
         else:
             input(" Harap masukan pilihan yang valid (1 | 2 | 3)")
@@ -48,10 +55,9 @@ def main():
             #os.system('clear')  #clear screen for linux
 
     screen = pygame.display.set_mode((242, 242))
-    gamestate = GameState()
-    engine = Engine
     init(screen, gamestate)
     running = True
+
     while running:
         pygame.display.flip()
         for event in pygame.event.get():
@@ -129,11 +135,11 @@ def main():
                         if not gamestate.moves[gamestate.turn]:
                             #running = False
                             break
-                print("Current score: " + str(gamestate.count(True)) + "  " + str(gamestate.count(False)))
+                print("[White] " + str(gamestate.pieces[1]) + " - " + str(gamestate.pieces[0]) + " [Black]")
 
     p1_count = str(gamestate.count(True))
     p2_count = str(gamestate.count(False))
-    print("Current score: " + p1_count + "  " + p2_count)
+    print("[White] " + p1_count + " - " + p2_count + " [Black]")
     if (p1_count > p2_count):
       print("Player WIN")
     elif (p1_count < p2_count):
